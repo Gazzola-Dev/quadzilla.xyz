@@ -1,14 +1,32 @@
 import { GameState } from "@/types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface ScoreDisplayProps {
   gameState: GameState;
 }
 
 const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ gameState }) => {
-  const { score, rewardMarkers } = gameState;
+  const { rewardMarkers } = gameState;
   const totalMarkers = rewardMarkers.length;
   const collectedMarkers = rewardMarkers.filter((m) => m.collected).length;
+  const [showKongMessage, setShowKongMessage] = useState(false);
+
+  // Check if all markers are collected
+  const allMarkersCollected = collectedMarkers === totalMarkers;
+
+  // Show message when Kong appears
+  useEffect(() => {
+    if (allMarkersCollected && !showKongMessage) {
+      setShowKongMessage(true);
+
+      // Hide message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowKongMessage(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [allMarkersCollected, showKongMessage]);
 
   return (
     <div
@@ -28,10 +46,20 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ gameState }) => {
         fontWeight: "bold", // Make text bolder
       }}
     >
-      <div>Score: {score}</div>
       <div>
         Markers: {collectedMarkers}/{totalMarkers}
       </div>
+      {allMarkersCollected && (
+        <div
+          style={{
+            marginTop: "10px",
+            color: "#ff9900",
+            fontSize: "16px",
+          }}
+        >
+          King Kong Unleashed!
+        </div>
+      )}
     </div>
   );
 };

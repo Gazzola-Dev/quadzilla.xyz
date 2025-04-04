@@ -18,7 +18,7 @@ const defaultPhysicsConfig: DronePhysicsConfig = {
 };
 
 export function useDronePhysics(
-  initialPosition: [number, number, number] = [0, 5, 0],
+  initialPosition: [number, number, number] = [0, 3, 0],
   config: Partial<DronePhysicsConfig> = {}
 ): [DroneState, DroneControls] {
   const physicsConfig = { ...defaultPhysicsConfig, ...config };

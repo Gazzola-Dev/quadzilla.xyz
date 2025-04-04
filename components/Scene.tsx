@@ -6,6 +6,7 @@ import {
   OrbitControls,
 } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import Ape from "./Ape";
 import Drone from "./Drone";
 import EiffelTower from "./EiffelTower";
 
@@ -33,11 +34,15 @@ const Scene = ({
   updateGameState: (droneState: DroneState) => void;
 }) => {
   // Initialize game state with landmarks and reward markers
-
   // Update game state in each frame
   useFrame(() => {
     updateGameState(droneState);
   });
+
+  // Check if all markers are collected to show the ape
+  const allMarkersCollected = gameState.rewardMarkers.every(
+    (marker) => marker.collected
+  );
 
   return (
     <KeyboardControls
@@ -61,19 +66,20 @@ const Scene = ({
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
       />
-
       {/* Scene environment */}
       <Environment preset="sunset" />
-
       {/* Drone */}
       <Drone
         droneState={droneState}
         droneControls={droneControls}
       />
-
       {/* Eiffel Tower landmark */}
       <EiffelTower landmark={gameState.landmarks[0]} />
-
+      {/* King Kong ape that appears when all markers are collected */}
+      <Ape
+        position={[0, 30, -20]} // Position at the top of the tower
+        active={allMarkersCollected}
+      />
       {/* Reward Markers */}
       {gameState.rewardMarkers.map((marker) => (
         <RewardMarkerComponent
@@ -81,7 +87,6 @@ const Scene = ({
           marker={marker}
         />
       ))}
-
       {/* Ground */}
       <mesh
         position={[0, -0.1, 0]}
@@ -91,7 +96,6 @@ const Scene = ({
         <planeGeometry args={[100, 100]} />
         <meshStandardMaterial color="#5a7d7c" />
       </mesh>
-
       {/* Camera controls */}
       <OrbitControls
         target={[

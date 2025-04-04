@@ -1,4 +1,4 @@
-// Type definitions for the drone simulator
+// Drone physics and control types
 export interface DroneState {
   position: [number, number, number];
   rotation: [number, number, number];
@@ -21,7 +21,7 @@ export interface DroneInputs {
 export interface DroneControls {
   setInputs: (inputs: Partial<DroneInputs>) => void;
   resetPosition: () => void;
-  updatePhysics: (delta: number) => void; // Added updatePhysics function
+  updatePhysics: (delta: number) => void;
 }
 
 export interface DronePhysicsConfig {
@@ -35,7 +35,7 @@ export interface DronePhysicsConfig {
   rotationDamping: number;
 }
 
-// Type definitions for the landmark and reward system
+// Game simulation types
 export interface Landmark {
   name: string;
   position: [number, number, number];
@@ -49,7 +49,7 @@ export interface RewardMarker {
   collected: boolean;
 }
 
-export interface CollisionState {
+export interface Collisions {
   hitGround: boolean;
   hitLandmark: boolean;
   collidedWithMarker: number | null;
@@ -58,6 +58,21 @@ export interface CollisionState {
 export interface GameState {
   landmarks: Landmark[];
   rewardMarkers: RewardMarker[];
-  collisions: CollisionState;
+  collisions: Collisions;
   score: number;
+}
+
+// King Kong effects
+export interface Plane {
+  id: number;
+  position: [number, number, number];
+  rotation: [number, number, number];
+  hit: boolean;
+}
+
+export interface ApeState {
+  active: boolean;
+  armSwing: number;
+  armSwingDirection: number;
+  planes: Plane[];
 }
