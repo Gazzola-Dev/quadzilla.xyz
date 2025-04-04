@@ -4,11 +4,11 @@ import {
   DronePhysicsConfig,
   DroneState,
 } from "@/types";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const defaultPhysicsConfig: DronePhysicsConfig = {
-  maxSpeed: 5,
-  acceleration: 10,
+  maxSpeed: 30, // Doubled from 15 to 30
+  acceleration: 20, // Doubled from 10 to 20
   drag: 0.95,
   gravity: 9.8,
   hoverStrength: 9.8,
@@ -67,24 +67,24 @@ export function useDronePhysics(
       const acceleration: [number, number, number] = [0, 0, 0];
       const targetRotation: [number, number, number] = [...prevState.rotation];
 
-      // Forward/Backward movement (Z axis)
+      // Forward/Backward movement (Z axis) - Reversed lean direction
       if (inputs.moveForward) {
         acceleration[2] -= physicsConfig.acceleration;
-        targetRotation[0] = physicsConfig.maxRotation;
+        targetRotation[0] = -physicsConfig.maxRotation; // Reversed (was positive)
       }
       if (inputs.moveBackward) {
         acceleration[2] += physicsConfig.acceleration;
-        targetRotation[0] = -physicsConfig.maxRotation;
+        targetRotation[0] = physicsConfig.maxRotation; // Reversed (was negative)
       }
 
-      // Left/Right movement (X axis)
+      // Left/Right movement (X axis) - Keeping original lean direction
       if (inputs.moveLeft) {
         acceleration[0] -= physicsConfig.acceleration;
-        targetRotation[2] = physicsConfig.maxRotation;
+        targetRotation[2] = physicsConfig.maxRotation; // Original direction
       }
       if (inputs.moveRight) {
         acceleration[0] += physicsConfig.acceleration;
-        targetRotation[2] = -physicsConfig.maxRotation;
+        targetRotation[2] = -physicsConfig.maxRotation; // Original direction
       }
 
       // Up/Down movement (Y axis)
@@ -158,7 +158,6 @@ export function useDronePhysics(
           newVelocity[1] * newVelocity[1] +
           newVelocity[2] * newVelocity[2]
       );
-
       if (speed > physicsConfig.maxSpeed) {
         const factor = physicsConfig.maxSpeed / speed;
         newVelocity = newVelocity.map((v) => v * factor) as [
@@ -274,6 +273,3 @@ export function useKeyboardControls(droneControls: DroneControls): void {
     };
   }, [setInputs]);
 }
-
-// Import missing useEffect
-import { useEffect } from "react";

@@ -1,6 +1,5 @@
-import { useCallback, useState } from "react";
-
 import { DroneState, GameState, Landmark, RewardMarker } from "@/types";
+import { useCallback, useState } from "react";
 
 // Eiffel Tower landmark data
 export const EIFFEL_TOWER: Landmark = {
@@ -13,11 +12,11 @@ export const EIFFEL_TOWER: Landmark = {
 // Initial reward markers positioned around the Eiffel Tower
 export const INITIAL_REWARD_MARKERS: RewardMarker[] = [
   // Markers at different heights around the tower
-  { id: 1, position: [5, 10, -20], collected: false }, // Right side, mid-height
-  { id: 2, position: [-5, 15, -20], collected: false }, // Left side, higher up
+  { id: 1, position: [6, 10, -20], collected: false }, // Right side, mid-height - moved further away
+  { id: 2, position: [-6, 15, -20], collected: false }, // Left side, higher up - moved further away
   { id: 3, position: [0, 25, -20], collected: false }, // Top of the tower
-  { id: 4, position: [0, 5, -25], collected: false }, // Behind the tower
-  { id: 5, position: [0, 8, -15], collected: false }, // In front of the tower
+  { id: 4, position: [0, 5, -27], collected: false }, // Behind the tower - moved further away
+  { id: 5, position: [0, 8, -13], collected: false }, // In front of the tower - moved further away
 ];
 
 // Collision detection parameters
@@ -112,11 +111,10 @@ export function useGameState(resetDronePosition: () => void) {
               ? { ...marker, collected: true }
               : marker
           );
-
           return {
             ...prev,
             rewardMarkers: updatedMarkers,
-            score: prev.score + 100,
+            score: prev.score + 1, // Increase score by 1 for each collected marker
             collisions: { hitGround, hitLandmark, collidedWithMarker },
           };
         });

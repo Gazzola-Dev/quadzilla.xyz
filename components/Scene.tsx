@@ -1,13 +1,11 @@
 import RewardMarkerComponent from "@/components/RewardMarket";
-import { useDronePhysics } from "@/hooks/useDronePhysics";
-import { useGameState } from "@/hooks/useGameState";
+import { DroneControls, DroneState, GameState } from "@/types";
 import {
   Environment,
   KeyboardControls,
   OrbitControls,
 } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import React from "react";
 import Drone from "./Drone";
 import EiffelTower from "./EiffelTower";
 
@@ -23,14 +21,18 @@ enum Controls {
   yawRight = "yawRight",
 }
 
-const Scene: React.FC = () => {
-  // Initialize drone physics inside the Scene component
-  const [droneState, droneControls] = useDronePhysics([0, 5, 0]);
-
+const Scene = ({
+  droneState,
+  droneControls,
+  gameState,
+  updateGameState,
+}: {
+  droneState: DroneState;
+  droneControls: DroneControls;
+  gameState: GameState;
+  updateGameState: (droneState: DroneState) => void;
+}) => {
   // Initialize game state with landmarks and reward markers
-  const { gameState, updateGameState } = useGameState(
-    droneControls.resetPosition
-  );
 
   // Update game state in each frame
   useFrame(() => {

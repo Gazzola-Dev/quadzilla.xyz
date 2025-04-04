@@ -13,7 +13,7 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ gameState }) => {
   return (
     <div
       style={{
-        position: "absolute",
+        position: "fixed",
         top: "20px",
         left: "20px",
         backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -22,6 +22,10 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ gameState }) => {
         borderRadius: "5px",
         fontFamily: "Arial, sans-serif",
         zIndex: 1000,
+        display: "block", // Always display
+        pointerEvents: "none", // Make sure it doesn't interfere with interactions
+        fontSize: "18px", // Larger font size for better visibility
+        fontWeight: "bold", // Make text bolder
       }}
     >
       <div>Score: {score}</div>

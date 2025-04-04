@@ -1,26 +1,31 @@
 "use client";
-
 import Scene from "@/components/Scene";
+import ScoreDisplay from "@/components/Score";
 import { useDronePhysics } from "@/hooks/useDronePhysics";
-import { Stats } from "@react-three/drei";
+import { useGameState } from "@/hooks/useGameState";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useState } from "react";
 
 export default function QuadcopterSimulator() {
-  const [, droneControls] = useDronePhysics([0, 5, 0]);
+  const [droneState, droneControls] = useDronePhysics([0, 5, 0]);
   const [showHelp, setShowHelp] = useState(true);
+
+  const { gameState, updateGameState } = useGameState(
+    droneControls.resetPosition
+  );
 
   // Hide help after 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowHelp(false);
     }, 10000);
-
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
+      <ScoreDisplay gameState={gameState} />
+
       {showHelp && (
         <div
           style={{
@@ -55,30 +60,18 @@ export default function QuadcopterSimulator() {
           </button>
         </div>
       )}
-
       <Canvas shadows>
         <Suspense fallback={null}>
-          <Scene />
+          <Scene
+            updateGameState={updateGameState}
+            droneState={droneState}
+            gameState={gameState}
+            droneControls={droneControls}
+          />
         </Suspense>
-        <Stats />
+        {/* Stats component removed */}
       </Canvas>
-
-      <button
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-          padding: "8px 16px",
-          backgroundColor: "#f44336",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
-        onClick={() => droneControls.resetPosition()}
-      >
-        Reset Position
-      </button>
+      {/* Reset position button removed */}
     </div>
   );
 }
