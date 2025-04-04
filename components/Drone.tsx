@@ -127,16 +127,16 @@ const Drone: React.FC<DroneProps> = ({ droneState, droneControls }) => {
         </mesh>
       </group>
 
-      {/* Propellers */}
+      {/* Propellers - Modified to be flat (horizontal) instead of vertical */}
       <group
         ref={propeller1Ref}
         position={[-0.7, 0.1, -0.7]}
       >
-        <mesh rotation={[0, 0, Math.PI / 4]}>
+        <mesh rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
-        <mesh rotation={[0, 0, -Math.PI / 4]}>
+        <mesh rotation={[0, -Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
@@ -146,11 +146,11 @@ const Drone: React.FC<DroneProps> = ({ droneState, droneControls }) => {
         ref={propeller2Ref}
         position={[0.7, 0.1, -0.7]}
       >
-        <mesh rotation={[0, 0, Math.PI / 4]}>
+        <mesh rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
-        <mesh rotation={[0, 0, -Math.PI / 4]}>
+        <mesh rotation={[0, -Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
@@ -160,11 +160,11 @@ const Drone: React.FC<DroneProps> = ({ droneState, droneControls }) => {
         ref={propeller3Ref}
         position={[-0.7, 0.1, 0.7]}
       >
-        <mesh rotation={[0, 0, Math.PI / 4]}>
+        <mesh rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
-        <mesh rotation={[0, 0, -Math.PI / 4]}>
+        <mesh rotation={[0, -Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
@@ -174,11 +174,11 @@ const Drone: React.FC<DroneProps> = ({ droneState, droneControls }) => {
         ref={propeller4Ref}
         position={[0.7, 0.1, 0.7]}
       >
-        <mesh rotation={[0, 0, Math.PI / 4]}>
+        <mesh rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
-        <mesh rotation={[0, 0, -Math.PI / 4]}>
+        <mesh rotation={[0, -Math.PI / 4, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.1]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
