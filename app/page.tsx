@@ -1,6 +1,5 @@
 "use client";
 
-import HUD from "@/components/HUD";
 import Scene from "@/components/Scene";
 import { useDronePhysics } from "@/hooks/useDronePhysics";
 import { Stats } from "@react-three/drei";
@@ -8,7 +7,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useState } from "react";
 
 export default function QuadcopterSimulator() {
-  const [droneState, droneControls] = useDronePhysics([0, 5, 0]);
+  const [, droneControls] = useDronePhysics([0, 5, 0]);
   const [showHelp, setShowHelp] = useState(true);
 
   // Hide help after 10 seconds
@@ -63,8 +62,6 @@ export default function QuadcopterSimulator() {
         </Suspense>
         <Stats />
       </Canvas>
-
-      <HUD droneState={droneState} />
 
       <button
         style={{

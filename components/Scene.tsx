@@ -1,11 +1,15 @@
+import RewardMarkerComponent from "@/components/RewardMarket";
 import { useDronePhysics } from "@/hooks/useDronePhysics";
+import { useGameState } from "@/hooks/useGameState";
 import {
   Environment,
   KeyboardControls,
   OrbitControls,
 } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import React from "react";
 import Drone from "./Drone";
+import EiffelTower from "./EiffelTower";
 
 // Define keyboard controls map
 enum Controls {
@@ -22,6 +26,16 @@ enum Controls {
 const Scene: React.FC = () => {
   // Initialize drone physics inside the Scene component
   const [droneState, droneControls] = useDronePhysics([0, 5, 0]);
+
+  // Initialize game state with landmarks and reward markers
+  const { gameState, updateGameState } = useGameState(
+    droneControls.resetPosition
+  );
+
+  // Update game state in each frame
+  useFrame(() => {
+    updateGameState(droneState);
+  });
 
   return (
     <KeyboardControls
@@ -54,6 +68,17 @@ const Scene: React.FC = () => {
         droneState={droneState}
         droneControls={droneControls}
       />
+
+      {/* Eiffel Tower landmark */}
+      <EiffelTower landmark={gameState.landmarks[0]} />
+
+      {/* Reward Markers */}
+      {gameState.rewardMarkers.map((marker) => (
+        <RewardMarkerComponent
+          key={marker.id}
+          marker={marker}
+        />
+      ))}
 
       {/* Ground */}
       <mesh
